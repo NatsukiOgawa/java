@@ -1,47 +1,58 @@
-import javafx.application.*;
-import javafx.stage.*;
-import javafx.scene.*;
-import javafx.scene.chart.*;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.IOException;
 
-public class Main extends Application {
-	@Override public void start(Stage stage) {
-		stage.show(); // ウィンドウを表示
-		Group root = new Group(); // Groupを作成
-		Scene scene = new Scene(root, 640, 480); // Sceneを作成
-		stage.setScene(scene); // Sceneを追加
+public class Main {
+    public static void main (String args[]) {
+			try {
+					Process process = new ProcessBuilder("git", "add", "*").start();
+					InputStreamReader isr = new InputStreamReader(process.getInputStream(), "UTF-8");
+					BufferedReader reader = new BufferedReader(isr);
+					StringBuilder builder = new StringBuilder();
+					int c;
+					while ((c = reader.read()) != -1) {
+							builder.append((char)c);
+					}
+					System.out.println("result:\n" + builder.toString());
+					System.out.println("Command return code: " + process.waitFor());
+			} catch (IOException | InterruptedException e) {
+					e.printStackTrace();
+			}
 
-		NumberAxis xAxis = new NumberAxis(); // X座標の値
-		NumberAxis yAxis = new NumberAxis(); // Y座標の値
-		xAxis.setLabel("月"); // X軸のラベルを設定
 
-		// 折れ線グラフを作成
-		LineChart<Number, Number> lineChart = new LineChart<>(xAxis, yAxis);
-		lineChart.setTitle("年間成績"); // 折れ線グラフのタイトルを設定
+			try {
+					Process process = new ProcessBuilder("git", "commit", "-m", "a").start();
+					InputStreamReader isr = new InputStreamReader(process.getInputStream(), "UTF-8");
+					BufferedReader reader = new BufferedReader(isr);
+					StringBuilder builder = new StringBuilder();
+					int c;
+					while ((c = reader.read()) != -1) {
+							builder.append((char)c);
+					}
+					System.out.println("result:\n" + builder.toString());
+					System.out.println("Command return code: " + process.waitFor());
+			} catch (IOException | InterruptedException e) {
+					e.printStackTrace();
+			}
 
-		XYChart.Series series = new XYChart.Series(); // データを保存するクラスを作成
-		series.setName("勝ち数"); // データの説明
 
-		// データを作成
-		int[] data = new int[12];
-		data[ 0] = 10;
-		data[ 1] = 11;
-		data[ 2] = 10;
-		data[ 3] = 12;
-		data[ 4] =  6;
-		data[ 5] =  5;
-		data[ 6] =  7;
-		data[ 7] = 11;
-		data[ 8] =  5;
-		data[ 9] = 14;
-		data[10] =  8;
-		data[11] =  9;
+			try {
+					Process process = new ProcessBuilder("git", "push").start();
+					InputStreamReader isr = new InputStreamReader(process.getInputStream(), "UTF-8");
+					BufferedReader reader = new BufferedReader(isr);
+					StringBuilder builder = new StringBuilder();
+					int c;
+					while ((c = reader.read()) != -1) {
+							builder.append((char)c);
+					}
+					System.out.println("result:\n" + builder.toString());
+					System.out.println("Command return code: " + process.waitFor());
+			} catch (IOException | InterruptedException e) {
+					e.printStackTrace();
+			}
 
-		// Seriesにデータを設定
-		for(int i = 0;i < data.length;i++) {
-			series.getData().add(new XYChart.Data(i + 1, data[i]));
-		}
 
-		root.getChildren().add(lineChart); // Groupに折れ線グラフを追加
-		lineChart.getData().add(series); // 折れ線グラフにデータを追加
-	}
+
+    }
 }

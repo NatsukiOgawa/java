@@ -1,38 +1,23 @@
-/**
- * 折れ線グラフの作成(createLineChartメソッド)
- */
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.ChartFactory;
-import org.jfree.data.category.DefaultCategoryDataset;
-import org.jfree.chart.plot.PlotOrientation;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.IOException;
 
-import javax.swing.JFrame;
-import java.awt.BorderLayout;
-import org.jfree.chart.ChartPanel;
-
-public class Test1_1 extends JFrame{
-  public static void main(String[] args) {
-    Test1_1 frame = new Test1_1();
-
-    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    frame.setBounds(10, 10, 500, 500);
-    frame.setTitle("グラフサンプル");
-    frame.setVisible(true);
-  }
-
-  Test1_1(){
-    DefaultCategoryDataset data = new DefaultCategoryDataset();
-    JFreeChart chart =
-      ChartFactory.createLineChart("輸入量",
-                                   "年度",
-                                   "トン(t)",
-                                   data,
-                                   PlotOrientation.VERTICAL,
-                                   true,
-                                   false,
-                                   false);
-
-    ChartPanel cpanel = new ChartPanel(chart);
-    getContentPane().add(cpanel, BorderLayout.CENTER);
-  }
+public class Main {
+    public static void main (String args[]) {
+        try {
+            Process process = new ProcessBuilder("ls", "-l").start();
+            InputStreamReader isr = new InputStreamReader(process.getInputStream(), "UTF-8");
+            BufferedReader reader = new BufferedReader(isr);
+            StringBuilder builder = new StringBuilder();
+            int c;
+            while ((c = reader.read()) != -1) {
+                builder.append((char)c);
+            }
+            System.out.println("result:\n" + builder.toString());
+            System.out.println("Command return code: " + process.waitFor());
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 }
